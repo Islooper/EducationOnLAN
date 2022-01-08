@@ -20,9 +20,9 @@
     <children>
         <AnchorPane prefHeight="503.0" prefWidth="382.0" style="-fx-background-color: #0C39FF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <ImageView fitHeight="52.0" fitWidth="52.0" layoutX="166.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="70.0" fitWidth="77.0" layoutX="156.0" layoutY="169.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../images/icons8_Google_Wallet_50px.png" />
+                        <Image url="@../images/logo.png" />
                     </image>
                 </ImageView>
                 <Label alignment="CENTER" layoutX="105.0" layoutY="262.0" prefHeight="23.0" prefWidth="173.0" text="Dw 屏幕共享" textFill="WHITE">
