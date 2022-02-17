@@ -62,7 +62,7 @@ public class LoginController implements Initializable {
                     Stage stage = (Stage) node.getScene().getWindow();
                     //stage.setMaximized(true);
                     stage.close();
-                    Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/OnBoard.fxml")));
+                    Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/main.fxml")));
                     stage.setScene(scene);
                     stage.show();
 
@@ -100,22 +100,24 @@ public class LoginController implements Initializable {
             status = "Error";
         } else {
             //query
-            String sql = "SELECT * FROM admins Where email = ? and password = ?";
-            try {
-                preparedStatement = con.prepareStatement(sql);
-                preparedStatement.setString(1, email);
-                preparedStatement.setString(2, password);
-                resultSet = preparedStatement.executeQuery();
-                if (!resultSet.next()) {
-                    setLblError(Color.TOMATO, "Enter Correct Email/Password");
-                    status = "Error";
-                } else {
-                    setLblError(Color.GREEN, "Login Successful..Redirecting..");
-                }
-            } catch (SQLException ex) {
-                System.err.println(ex.getMessage());
-                status = "Exception";
-            }
+//            String sql = "SELECT * FROM admins Where email = ? and password = ?";
+//            try {
+//                preparedStatement = con.prepareStatement(sql);
+//                preparedStatement.setString(1, email);
+//                preparedStatement.setString(2, password);
+//                resultSet = preparedStatement.executeQuery();
+//                if (!resultSet.next()) {
+//                    setLblError(Color.TOMATO, "Enter Correct Email/Password");
+//                    status = "Error";
+//                } else {
+//                    setLblError(Color.GREEN, "Login Successful..Redirecting..");
+//                }
+//            } catch (SQLException ex) {
+//                System.err.println(ex.getMessage());
+//                status = "Exception";
+//            }
+            // TODO
+            if (email.equals("123") && password.equals("123")) return status;
         }
         
         return status;

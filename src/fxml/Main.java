@@ -1,4 +1,4 @@
-package sample;
+package fxml;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
