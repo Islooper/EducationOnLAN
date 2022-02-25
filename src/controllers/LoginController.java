@@ -79,7 +79,7 @@ public class LoginController implements Initializable {
         // TODO
         if (con == null) {
             lblErrors.setTextFill(Color.TOMATO);
-            lblErrors.setText("Server Error : Check");
+            lblErrors.setText("系统错误 : 请检查");
         } else {
             lblErrors.setTextFill(Color.GREEN);
             lblErrors.setText("Server is up : Good to go");
