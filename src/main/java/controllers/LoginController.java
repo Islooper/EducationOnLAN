@@ -7,9 +7,8 @@ package controllers;
  */
 
 import com.alibaba.fastjson.JSONObject;
-import com.sun.corba.se.impl.oa.toa.TOA;
-import com.sun.org.apache.xpath.internal.objects.XString;
 import controllers.common.UdpConfig;
+import controllers.common.UdpPkgTag;
 import controllers.udp.UdpFunc;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,10 +26,6 @@ import util.OkHttpUtil;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
@@ -111,12 +106,13 @@ public class LoginController implements Initializable {
             userLoader.name = res.getJSONObject("data").getString("name");
 
             // 角色为学生发送心跳包。角色为老师开启udp监听
-            UdpFunc udpFunc = new UdpFunc(UdpConfig.port);
+            UdpFunc udpFunc = new UdpFunc(UdpConfig.PORT);
             // 学生
             if (userLoader.role == 1){
                 // 发送数据
-                // TODO 数据组装
-                String message = "";
+                String message = UdpPkgTag.HEART +":" + userLoader.name + ":" +userLoader.ip + ":" +
+                        userLoader.userName + ":"+
+                        userLoader.role;
                 sendUdpPkg(message , udpFunc);
             }else {
                 // 监听数据
@@ -129,17 +125,24 @@ public class LoginController implements Initializable {
     }
 
     public void sendUdpPkg(String message  , UdpFunc udpFunc) {
-        new Thread(() -> {
-            while (true){
-                udpFunc.send( message , UdpConfig.port , UdpConfig.host);
-                try {
-                    Thread.sleep(6000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    System.out.println("发送数据失败");
+        Thread thread = new Thread() {
+
+            @Override
+            public void run() {
+                while (true){
+                    udpFunc.send( message , UdpConfig.PORT, UdpConfig.HOST);
+                    try {
+                        Thread.sleep(6000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        System.out.println("发送数据失败");
+                    }
                 }
             }
-        });
+
+        };
+        thread.setName("send message thread");
+        thread.start();
     }
 
     public void udpListenerOn (UdpFunc udpFunc){
