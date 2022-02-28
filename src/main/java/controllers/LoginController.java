@@ -6,6 +6,7 @@ package controllers;
  * and open the template in the editor.
  */
 
+import com.alibaba.fastjson.JSONObject;
 import com.sun.org.apache.xpath.internal.objects.XString;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -108,7 +109,19 @@ public class LoginController implements Initializable {
             HashMap<String, String> form = new HashMap<String, String>();
             form.put("user_name" , email);
             form.put("password" , password);
-            http.sendPostByForm(Api.loginApi , form);
+            JSONObject res = http.sendPostByForm(Api.loginApi, form);
+            if (res.getInteger("code") != 0) {
+                setLblError(Color.TOMATO, "用户名或密码错误");
+                status = "Fail";
+            }
+
+            // 获取当前用户信息
+            UserLoader userLoader =  UserLoader.getInstance();
+            userLoader.ip = res.getJSONObject("data").getString("ip");
+            userLoader.userName = res.getJSONObject("data").getString("user_name");
+            userLoader.role = res.getJSONObject("data").getInteger("user_type");
+            userLoader.name = res.getJSONObject("data").getString("name");
+            return status;
         }
         
         return status;

@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import java.io.File;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import com.alibaba.fastjson.JSONObject;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -30,7 +32,7 @@ public class OkHttpUtil {
      * @param mapParam 请求参数
      *
      */
-    public void sendPostByForm(String reqUrl, Map<String,String> mapParam){
+    public JSONObject sendPostByForm(String reqUrl, Map<String,String> mapParam) {
         try {
             long startTime = System.currentTimeMillis();
             //循环form表单，将表单内容添加到form builder中
@@ -44,14 +46,14 @@ public class OkHttpUtil {
             Request.Builder builder = new Request.Builder().url(reqUrl).post(formBody.build());
             try(Response response = okHttpClient.newCall(builder.build()).execute()){
                 String body = response.body().string();
-                System.out.println(body);
+                return JSON.parseObject(body);
             }catch(Exception e){
                 System.out.println("调用接口出错\n"+ e.getMessage());
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
-
         }
+        return null;
     }
 
     /**
