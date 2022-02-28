@@ -7,7 +7,10 @@ package controllers;
  */
 
 import com.alibaba.fastjson.JSONObject;
+import com.sun.corba.se.impl.oa.toa.TOA;
 import com.sun.org.apache.xpath.internal.objects.XString;
+import controllers.common.UdpConfig;
+import controllers.udp.UdpFunc;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -107,14 +110,50 @@ public class LoginController implements Initializable {
             userLoader.role = res.getJSONObject("data").getInteger("user_type");
             userLoader.name = res.getJSONObject("data").getString("name");
 
-            // 角色为学生发送心跳包
+            // 角色为学生发送心跳包。角色为老师开启udp监听
+            UdpFunc udpFunc = new UdpFunc(UdpConfig.port);
+            // 学生
             if (userLoader.role == 1){
-                // todo
+                // 发送数据
+                // TODO 数据组装
+                String message = "";
+                sendUdpPkg(message , udpFunc);
+            }else {
+                // 监听数据
+                udpListenerOn(udpFunc);
             }
             return status;
         }
 
         return status;
+    }
+
+    public void sendUdpPkg(String message  , UdpFunc udpFunc) {
+        new Thread(() -> {
+            while (true){
+                udpFunc.send( message , UdpConfig.port , UdpConfig.host);
+                try {
+                    Thread.sleep(6000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    System.out.println("发送数据失败");
+                }
+            }
+        });
+    }
+
+    public void udpListenerOn (UdpFunc udpFunc){
+        // TODO 监听到的数据处理
+        Thread thread = new Thread() {
+
+            @Override
+            public void run() {
+                udpFunc.read();
+            }
+
+        };
+        thread.setName("receive message thread");
+        thread.start();
     }
 
     private void setLblError(Color color, String text) {

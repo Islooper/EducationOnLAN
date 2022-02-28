@@ -11,7 +11,7 @@ public class UdpFunc {
      * 在指定端口监听udp消息
      * @param port
      */
-    UdpFunc(int port) {
+    public UdpFunc(int port) {
         try {
             udp=new DatagramSocket(port);
         } catch (SocketException e) {
@@ -25,7 +25,7 @@ public class UdpFunc {
      * @param port 指定的端口
      * @param ip 指定的ip地址
      */
-    void send(String message,int port,String ip) {
+    public void send(String message,int port,String ip) {
         try {
             byte temp[]=message.getBytes();
             InetAddress address=InetAddress.getByName(ip);
@@ -40,24 +40,23 @@ public class UdpFunc {
 
     /**
      * 从端口读取报文并返回报文数据
-     * @return 报文数据
      */
-    String read() {
-        byte temp[]=new byte[2048];
-        DatagramPacket receive_packet=new DatagramPacket(temp,temp.length);
-        try {
-            udp.receive(receive_packet);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void read()  {
+        System.out.println("开启监听");
+        while (true) {
+            // 创建一个包裹
+            byte[] bys = new byte[2048];
+            DatagramPacket dp = new DatagramPacket(bys, bys.length);
+            // 接收数据
+            try {
+                udp.receive(dp);
+                // 解析数据
+                String ip = dp.getAddress().getHostAddress();
+                String s = new String(dp.getData(), 0, dp.getLength());
+                System.out.println("from " + ip + " data is : " + s);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        String result=new String(receive_packet.getData(),0,receive_packet.getLength());
-        return result;
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        UdpFunc udpFunc = new UdpFunc(8888);
-        udpFunc.send("hello",8888 , "127.0.0.1");
-        Thread.sleep(1000);
-        System.out.println(udpFunc.read());;
     }
 }
