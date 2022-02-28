@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 /**
- *
  * @author oXCToo
  */
 public class LoginController implements Initializable {
@@ -49,11 +48,6 @@ public class LoginController implements Initializable {
     @FXML
     private Button btnSignin;
 
-    /// -- 
-    Connection con = null;
-    PreparedStatement preparedStatement = null;
-    ResultSet resultSet = null;
-
     @FXML
     public void handleButtonAction(MouseEvent event) {
 
@@ -61,11 +55,8 @@ public class LoginController implements Initializable {
             //login here
             if (logIn().equals("Success")) {
                 try {
-
-                    //add you loading or delays - ;-)
                     Node node = (Node) event.getSource();
                     Stage stage = (Stage) node.getScene().getWindow();
-                    //stage.setMaximized(true);
                     stage.close();
                     Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/fxml/main.fxml")));
                     stage.setScene(scene);
@@ -81,14 +72,8 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        if (con == null) {
-            lblErrors.setTextFill(Color.TOMATO);
-            lblErrors.setText("系统错误 : 请检查");
-        } else {
-            lblErrors.setTextFill(Color.GREEN);
-            lblErrors.setText("Server is up : Good to go");
-        }
+        lblErrors.setTextFill(Color.GREEN);
+        lblErrors.setText("Server is up : Good to go");
     }
 
     public LoginController() {
@@ -100,15 +85,15 @@ public class LoginController implements Initializable {
         String status = "Success";
         String email = txtUsername.getText();
         String password = txtPassword.getText();
-        if(email.isEmpty() || password.isEmpty()) {
+        if (email.isEmpty() || password.isEmpty()) {
             setLblError(Color.TOMATO, "Empty credentials");
             status = "Error";
         } else {
             // 发送登陆表单
             OkHttpUtil http = new OkHttpUtil();
             HashMap<String, String> form = new HashMap<String, String>();
-            form.put("user_name" , email);
-            form.put("password" , password);
+            form.put("user_name", email);
+            form.put("password", password);
             JSONObject res = http.sendPostByForm(Api.loginApi, form);
             if (res.getInteger("code") != 0) {
                 setLblError(Color.TOMATO, "用户名或密码错误");
@@ -116,17 +101,22 @@ public class LoginController implements Initializable {
             }
 
             // 获取当前用户信息
-            UserLoader userLoader =  UserLoader.getInstance();
+            UserLoader userLoader = UserLoader.getInstance();
             userLoader.ip = res.getJSONObject("data").getString("ip");
             userLoader.userName = res.getJSONObject("data").getString("user_name");
             userLoader.role = res.getJSONObject("data").getInteger("user_type");
             userLoader.name = res.getJSONObject("data").getString("name");
+
+            // 角色为学生发送心跳包
+            if (userLoader.role == 1){
+                // todo
+            }
             return status;
         }
-        
+
         return status;
     }
-    
+
     private void setLblError(Color color, String text) {
         lblErrors.setTextFill(color);
         lblErrors.setText(text);

@@ -19,7 +19,6 @@ public class Main extends Application {
         primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.setMaximized(false);
 
-        //grab your root here
         root.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -28,8 +27,6 @@ public class Main extends Application {
             }
         });
 
-        //sorry about that - Windows defender issue.
-        //move around here
         root.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
