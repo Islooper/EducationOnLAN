@@ -15,10 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -45,6 +42,9 @@ public class MainController implements Initializable {
 //    private DatabaseHandler databaseHandler;
     private PieChart bookChart;
     private PieChart memberChart;
+
+    @FXML
+    private GridPane dpOnlineLists;
 
     @FXML
     private HBox book_info;
@@ -114,9 +114,14 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 //        databaseHandler = DatabaseHandler.getInstance();
+        initOnlineStudentsData();
         initDrawer();
         initGraphs();
         initComponents();
+    }
+
+    private void initOnlineStudentsData() {
+//        dpOnlineLists
     }
 
     @FXML
