@@ -30,7 +30,7 @@ public class OkHttpUtil {
      * @param mapParam 请求参数
      *
      */
-    private void sendPostByForm(String reqUrl, Map<String,String> mapParam){
+    public void sendPostByForm(String reqUrl, Map<String,String> mapParam){
         try {
             long startTime = System.currentTimeMillis();
             //循环form表单，将表单内容添加到form builder中

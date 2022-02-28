@@ -6,6 +6,7 @@ package controllers;
  * and open the template in the editor.
  */
 
+import com.sun.org.apache.xpath.internal.objects.XString;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,6 +18,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import util.Api;
+import util.OkHttpUtil;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,6 +27,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 /**
@@ -99,25 +103,12 @@ public class LoginController implements Initializable {
             setLblError(Color.TOMATO, "Empty credentials");
             status = "Error";
         } else {
-            //query
-//            String sql = "SELECT * FROM admins Where email = ? and password = ?";
-//            try {
-//                preparedStatement = con.prepareStatement(sql);
-//                preparedStatement.setString(1, email);
-//                preparedStatement.setString(2, password);
-//                resultSet = preparedStatement.executeQuery();
-//                if (!resultSet.next()) {
-//                    setLblError(Color.TOMATO, "Enter Correct Email/Password");
-//                    status = "Error";
-//                } else {
-//                    setLblError(Color.GREEN, "Login Successful..Redirecting..");
-//                }
-//            } catch (SQLException ex) {
-//                System.err.println(ex.getMessage());
-//                status = "Exception";
-//            }
-            // TODO
-            if (email.equals("123") && password.equals("123")) return status;
+            // 发送登陆表单
+            OkHttpUtil http = new OkHttpUtil();
+            HashMap<String, String> form = new HashMap<String, String>();
+            form.put("user_name" , email);
+            form.put("password" , password);
+            http.sendPostByForm(Api.loginApi , form);
         }
         
         return status;
