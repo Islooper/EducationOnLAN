@@ -19,4 +19,8 @@ public class OnlineUsers {
         list.add(user);
         return list;
     }
+
+    public int size() {
+        return list.size();
+    }
 }

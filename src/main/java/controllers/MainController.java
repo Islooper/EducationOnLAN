@@ -9,7 +9,9 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -111,6 +113,12 @@ public class MainController implements Initializable {
     @FXML
     private JFXButton btnIssue;
 
+    @FXML
+    private ScrollPane sp_main;
+
+    @FXML
+    private GridPane gpOnline;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 //        databaseHandler = DatabaseHandler.getInstance();
@@ -118,6 +126,39 @@ public class MainController implements Initializable {
         initDrawer();
         initGraphs();
         initComponents();
+
+        int column = 0;
+        int row = 1;
+        try {
+            for (int i = 0; i < OnlineUsers.getInstance().size(); i++) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/views/item.fxml"));
+                AnchorPane anchorPane = fxmlLoader.load();
+
+                ItemController itemController = fxmlLoader.getController();
+                itemController.setData(OnlineUsers.getInstance().list.get(i));
+
+                if (column == 3) {
+                    column = 0;
+                    row++;
+                }
+
+                gpOnline.add(anchorPane, column++, row); //(child,column,row)
+                //set grid width
+                gpOnline.setMinWidth(Region.USE_COMPUTED_SIZE);
+                gpOnline.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                gpOnline.setMaxWidth(Region.USE_PREF_SIZE);
+
+                //set grid height
+                gpOnline.setMinHeight(Region.USE_COMPUTED_SIZE);
+                gpOnline.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                gpOnline.setMaxHeight(Region.USE_PREF_SIZE);
+
+                GridPane.setMargin(anchorPane, new Insets(10));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initOnlineStudentsData() {
