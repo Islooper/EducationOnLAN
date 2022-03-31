@@ -96,6 +96,7 @@ public class LoginController implements Initializable {
             if (res.getInteger("code") != 0) {
                 setLblError(Color.TOMATO, "用户名或密码错误");
                 status = "Fail";
+                return status;
             }
 
             // 获取当前用户信息
