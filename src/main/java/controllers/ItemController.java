@@ -39,12 +39,13 @@ public class ItemController {
 
 
 
-    public void setData(User user) {
+    public void setData(User user , MyListener myListener) {
         this.users = user;
-//        this.myListener = myListener;
+        this.myListener = myListener;
         nameLabel.setText(user.getName());
         priceLable.setText(user.getIp());
-        Image image = new Image(getClass().getResourceAsStream("/images/computer_green.png"));
+//        Image image = new Image(getClass().getResourceAsStream("/images/computer_green.png"));
+        Image image = new Image("file:/images/computer_green.png");
         img.setImage(image);
     }
 }

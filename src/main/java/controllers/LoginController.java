@@ -53,6 +53,7 @@ public class LoginController implements Initializable {
             //login here
             if (logIn().equals("Success")) {
                 try {
+                    System.out.println("123");
                     Node node = (Node) event.getSource();
                     Stage stage = (Stage) node.getScene().getWindow();
                     stage.close();
@@ -87,39 +88,40 @@ public class LoginController implements Initializable {
             setLblError(Color.TOMATO, "Empty credentials");
             status = "Error";
         } else {
-            // 发送登陆表单
-            OkHttpUtil http = new OkHttpUtil();
-            HashMap<String, String> form = new HashMap<String, String>();
-            form.put("user_name", email);
-            form.put("password", password);
-            JSONObject res = http.sendPostByForm(Api.loginApi, form);
-            if (res.getInteger("code") != 0) {
-                setLblError(Color.TOMATO, "用户名或密码错误");
-                status = "Fail";
-                return status;
-            }
+//            // 发送登陆表单
+//            OkHttpUtil http = new OkHttpUtil();
+//            HashMap<String, String> form = new HashMap<String, String>();
+//            form.put("user_name", email);
+//            form.put("password", password);
+//            JSONObject res = http.sendPostByForm(Api.loginApi, form);
+//            if (res.getInteger("code") != 0) {
+//                setLblError(Color.TOMATO, "用户名或密码错误");
+//                status = "Fail";
+//                return status;
+//            }
 
-            // 获取当前用户信息
-            UserLoader userLoader = UserLoader.getInstance();
-            userLoader.ip = res.getJSONObject("data").getString("ip");
-            userLoader.userName = res.getJSONObject("data").getString("user_name");
-            userLoader.role = res.getJSONObject("data").getInteger("user_type");
-            userLoader.name = res.getJSONObject("data").getString("name");
+//            // 获取当前用户信息
 
-            // 角色为学生发送心跳包。角色为老师开启udp监听
-            UdpFunc udpFunc = new UdpFunc(UdpConfig.PORT);
+//
+//            // 角色为学生发送心跳包。角色为老师开启udp监听
+//            UdpFunc udpFunc = new UdpFunc(UdpConfig.PORT);
             // 学生
-            if (userLoader.role == 1){
-                // 发送数据
-                String message = UdpPkgTag.HEART +":" + userLoader.name + ":" +userLoader.ip + ":" +
-                        userLoader.userName + ":"+
-                        userLoader.role;
-                sendUdpPkg(message , udpFunc);
-            }else {
-                // 监听数据
-                udpListenerOn(udpFunc);
-            }
-            return status;
+//            if (userLoader.role == 1){
+//                // 发送数据
+//                String message = UdpPkgTag.HEART +":" + userLoader.name + ":" +userLoader.ip + ":" +
+//                        userLoader.userName + ":"+
+//                        userLoader.role;
+//                sendUdpPkg(message , udpFunc);
+//            }else {
+//                // 监听数据
+////                udpListenerOn(udpFunc);
+//            }
+            UserLoader userLoader = UserLoader.getInstance();
+            userLoader.ip = "127.0.0.1";
+            userLoader.userName = "looper";
+            userLoader.role = 1;
+            userLoader.name = "刘大卫";
+            return "Success";
         }
 
         return status;

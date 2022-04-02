@@ -2,6 +2,7 @@ package controllers;
 
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
+import controllers.dao.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -125,18 +126,35 @@ public class MainController implements Initializable {
         initOnlineStudentsData();
         initDrawer();
         initGraphs();
-        initComponents();
+//        initComponents();
 
+        OnlineUsers users = OnlineUsers.getInstance();
+        User user = new User();
+        user.setUserName("测试1");
+        user.setIp("127.0.0.1");
+        User user2 = new User();
+        user2.setUserName("测试2");
+        user2.setIp("127.0.0.1");
+
+        users.append(user);
+        users.append(user2);
+        users.append(user2);
+        users.append(user2);
         int column = 0;
         int row = 1;
         try {
             for (int i = 0; i < OnlineUsers.getInstance().size(); i++) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/views/item.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("/fxml/item.fxml"));
                 AnchorPane anchorPane = fxmlLoader.load();
 
                 ItemController itemController = fxmlLoader.getController();
-                itemController.setData(OnlineUsers.getInstance().list.get(i));
+                itemController.setData(OnlineUsers.getInstance().list.get(i), new MyListener() {
+                    @Override
+                    public void onClickListener(User users) {
+                        System.out.println(users.getName());
+                    }
+                });
 
                 if (column == 3) {
                     column = 0;
@@ -145,14 +163,14 @@ public class MainController implements Initializable {
 
                 gpOnline.add(anchorPane, column++, row); //(child,column,row)
                 //set grid width
-                gpOnline.setMinWidth(Region.USE_COMPUTED_SIZE);
-                gpOnline.setPrefWidth(Region.USE_COMPUTED_SIZE);
-                gpOnline.setMaxWidth(Region.USE_PREF_SIZE);
-
-                //set grid height
-                gpOnline.setMinHeight(Region.USE_COMPUTED_SIZE);
-                gpOnline.setPrefHeight(Region.USE_COMPUTED_SIZE);
-                gpOnline.setMaxHeight(Region.USE_PREF_SIZE);
+//                gpOnline.setMinWidth(Region.USE_COMPUTED_SIZE);
+//                gpOnline.setPrefWidth(Region.USE_COMPUTED_SIZE);
+//                gpOnline.setMaxWidth(Region.USE_PREF_SIZE);
+//
+//                //set grid height
+//                gpOnline.setMinHeight(Region.USE_COMPUTED_SIZE);
+//                gpOnline.setPrefHeight(Region.USE_COMPUTED_SIZE);
+//                gpOnline.setMaxHeight(Region.USE_PREF_SIZE);
 
                 GridPane.setMargin(anchorPane, new Insets(10));
             }
@@ -591,10 +609,10 @@ public class MainController implements Initializable {
             loadIssueOperation(null);
         }
     }
-
-    private void initComponents() {
-        mainTabPane.tabMinWidthProperty().bind(rootAnchorPane.widthProperty().divide(mainTabPane.getTabs().size()).subtract(15));
-    }
+//
+//    private void initComponents() {
+////        mainTabPane.tabMinWidthProperty().bind(rootAnchorPane.widthProperty().divide(mainTabPane.getTabs().size()).subtract(15));
+//    }
 
     @FXML
     private void handleMenuOverdueNotification(ActionEvent event) {
