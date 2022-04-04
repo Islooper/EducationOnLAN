@@ -162,16 +162,6 @@ public class MainController implements Initializable {
                 }
 
                 gpOnline.add(anchorPane, column++, row); //(child,column,row)
-                //set grid width
-//                gpOnline.setMinWidth(Region.USE_COMPUTED_SIZE);
-//                gpOnline.setPrefWidth(Region.USE_COMPUTED_SIZE);
-//                gpOnline.setMaxWidth(Region.USE_PREF_SIZE);
-//
-//                //set grid height
-//                gpOnline.setMinHeight(Region.USE_COMPUTED_SIZE);
-//                gpOnline.setPrefHeight(Region.USE_COMPUTED_SIZE);
-//                gpOnline.setMaxHeight(Region.USE_PREF_SIZE);
-
                 GridPane.setMargin(anchorPane, new Insets(10));
             }
         } catch (IOException e) {
@@ -265,56 +255,13 @@ public class MainController implements Initializable {
 
     @FXML
     private void loadIssueOperation(ActionEvent event) {
-//        if (checkForIssueValidity()) {
-//            JFXButton btn = new JFXButton("Okay!");
-//            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(btn), "Invalid Input", null);
-//            return;
-//        }
-//        if (bookStatus.getText().equals(BOOK_NOT_AVAILABLE)) {
-//            JFXButton btn = new JFXButton("Okay!");
-//            JFXButton viewDetails = new JFXButton("View Details");
-//            viewDetails.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent e) -> {
-//                String bookToBeLoaded = bookIDInput.getText();
-//                bookID.setText(bookToBeLoaded);
-//                bookID.fireEvent(new ActionEvent());
-//                mainTabPane.getSelectionModel().select(renewTab);
-//            });
-//            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(btn, viewDetails), "Already issued book", "This book is already issued. Cant process issue request");
-//            return;
-//        }
-//
-//        String memberID = memberIDInput.getText();
-//        String bookID = bookIDInput.getText();
-//
-//        JFXButton yesButton = new JFXButton("YES");
-//        yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1) -> {
-//            String str = "INSERT INTO ISSUE(memberID,bookID) VALUES ("
-//                    + "'" + memberID + "',"
-//                    + "'" + bookID + "')";
-//            String str2 = "UPDATE BOOK SET isAvail = false WHERE id = '" + bookID + "'";
-//            System.out.println(str + " and " + str2);
-//
-//            if (databaseHandler.execAction(str) && databaseHandler.execAction(str2)) {
-//                JFXButton button = new JFXButton("Done!");
-//                button.setOnAction((actionEvent) -> {
-//                    bookIDInput.requestFocus();
-//                });
-//                AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "Book Issue Complete", null);
-//                refreshGraphs();
-//            } else {
-//                JFXButton button = new JFXButton("Okay.I'll Check");
-//                AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "Issue Operation Failed", null);
-//            }
-//            clearIssueEntries();
-//        });
-//        JFXButton noButton = new JFXButton("NO");
-//        noButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event1) -> {
-//            JFXButton button = new JFXButton("That's Okay");
-//            AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(button), "Issue Cancelled", null);
-//            clearIssueEntries();
-//        });
-//        AlertMaker.showMaterialDialog(rootPane, rootAnchorPane, Arrays.asList(yesButton, noButton), "Confirm Issue",
-//                String.format("Are you sure want to issue the book '%s' to '%s' ?", bookName.getText(), memberName.getText()));
+        String commandStr = "ffmpeg -f avfoundation -i \"1\" -vcodec libx264 -preset ultrafast -acodec libfaac -f flv rtmp://localhost:1935/rtmplive/home";
+        try {
+            Runtime.getRuntime().exec(commandStr);
+        } catch (IOException e1) {
+            System.out.println(e1.toString());
+            e1.printStackTrace();
+        }
     }
 
     @FXML

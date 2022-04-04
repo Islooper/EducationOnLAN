@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>直播测试</title>
+</head>
+<body>
+<!-- 通过CDN直接引入flvjs -->
+<script src="https://cdn.bootcdn.net/ajax/libs/flv.js/1.6.1/flv.min.js"></script>
+<div  style="text-align: center;">
+  <video id="liveTest" style="height: 100%;width: 100%;"></video>
+</div>
+<script>
+  if (flvjs.isSupported()) {
+    flvjs.createPlayer({
+      type: 'flv',
+      isLive: true,
+      url: 'http://localhost:7001/live/movie.flv'
+    })
+            .attachMediaElement(document.getElementById('liveTest'))
+            .load()
+            .play()
+  }
+</script>
+</body>
+</html>

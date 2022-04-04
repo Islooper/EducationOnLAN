@@ -4,5 +4,6 @@ public class Api {
     // 域名
     public static final String api = "http://127.0.0.1:8089";
     public static final String loginApi = api + "/user/login";
+    public static final String uploadFile = api + "/file/upload";
 }
 

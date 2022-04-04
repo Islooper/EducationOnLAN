@@ -16,12 +16,12 @@
             <children>
                 <HBox prefHeight="51.0" prefWidth="185.0">
                     <children>
-                        <Label fx:id="nameLabel" prefHeight="49.0" prefWidth="137.0" text="Cherry">
+                        <Label fx:id="nameLabel" prefHeight="49.0" prefWidth="137.0" text="小明">
                             <font>
                                 <Font name="Cambria" size="24.0" />
                             </font>
                         </Label>
-                        <Label fx:id="priceLable" prefHeight="49.0" prefWidth="101.0" text="\$0.99">
+                        <Label fx:id="priceLable" prefHeight="49.0" prefWidth="101.0" text="127.0.0.1">
                             <font>
                                 <Font name="Cambria Bold" size="18.0" />
                             </font>
