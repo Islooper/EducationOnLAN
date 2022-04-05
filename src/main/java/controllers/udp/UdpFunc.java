@@ -1,7 +1,9 @@
 package controllers.udp;
 
+import controllers.ChatRoomController;
 import controllers.OnlineUsers;
 import controllers.common.UdpPkgTag;
+import controllers.dao.Message;
 import controllers.dao.User;
 import controllers.common.UdpPkgTag;
 
@@ -71,6 +73,12 @@ public class UdpFunc {
 
                         OnlineUsers.getInstance().append(user);
                     case UdpPkgTag.CHAT:
+                        Message message = new Message();
+                        message.setTimer(data[1]);
+                        message.setSpeaker(data[2]);
+                        message.setContent(data[3]);
+
+                        ChatRoomController.getInstance().getListView().add(message);
 
                 }
                 System.out.println("from " + ip + " data is : " + s);
